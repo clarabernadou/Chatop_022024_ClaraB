@@ -12,4 +12,12 @@ public interface AuthenticationService {
      * @return String
      */
     Optional<String>createUser(UserDTO userDTO);
+
+    /**
+     * Check if the user is in the database
+     *
+     * @param userDTO
+     * @return Optional<String>
+     */
+    Optional<String> login(UserDTO userDTO);
 }

@@ -12,7 +12,6 @@ import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.model.TokenResponse;
 import com.chatop.SpringSecurityAuth.services.AuthenticationService;
 
-import java.security.Principal;
 import java.util.Optional;
 
 
@@ -39,6 +38,16 @@ public class AuthenticationController {
 
         if(token.isEmpty()) {
             System.out.println("Le token est vide");
+            return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
+        }
+        return ResponseEntity.ok(new TokenResponse(token.get()));
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+
+        Optional<String> token = authenticationService.login(userDTO);
+        if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok(new TokenResponse(token.get()));
