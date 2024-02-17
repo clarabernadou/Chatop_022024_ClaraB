@@ -43,4 +43,13 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
         userRepository.save(user);
         return Optional.of(jwtService.generateToken(userDTO));
     }
+
+    @Override
+    public Optional<String> login(UserDTO userDTO) {
+        Optional<User> user = userRepository.findByEmail(userDTO.getEmail());
+        if(user.isEmpty() || !this.passwordEncoder.matches(userDTO.getPassword(), user.get().getPassword())) {
+            return Optional.empty();
+        }
+        return Optional.of(jwtService.generateToken(userDTO));
+    }
 }
