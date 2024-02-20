@@ -7,7 +7,7 @@ import java.security.Timestamp;
 
 @Data
 @Entity
-@Table(name = "dbuser")
+@Table(name = "users")
 public class User {
 
     @Id

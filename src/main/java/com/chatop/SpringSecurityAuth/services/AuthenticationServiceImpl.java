@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.chatop.SpringSecurityAuth.dto.UserDTO;
 import com.chatop.SpringSecurityAuth.entity.User;
+import com.chatop.SpringSecurityAuth.model.UserResponse;
 import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 
 import java.util.Optional;
@@ -51,5 +52,14 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
             return Optional.empty();
         }
         return Optional.of(jwtService.generateToken(userDTO));
+    }
+
+    @Override
+    public UserResponse me(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()) {
+            return modelMapper.map(user.get(), UserResponse.class);
+        }
+        return null;
     }
 }
