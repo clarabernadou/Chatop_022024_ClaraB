@@ -3,11 +3,7 @@ package com.chatop.SpringSecurityAuth.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.security.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @Entity

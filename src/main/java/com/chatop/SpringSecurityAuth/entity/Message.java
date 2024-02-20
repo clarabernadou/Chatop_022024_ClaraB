@@ -1,6 +1,6 @@
 package com.chatop.SpringSecurityAuth.entity;
 
-import java.security.Timestamp;
+import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,9 +16,18 @@ public class Message {
 
     private String message;
 
-    @Column(name = "created_at")
-    private Timestamp createdAt;
+    @Column(updatable = false)
+    private LocalDate created_at;
 
-    @Column(name = " updated_at")
-    private Timestamp updatedAt;    
+    private LocalDate updated_at;
+
+    @PrePersist
+    protected void onCreate() {
+        created_at = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated_at = LocalDate.now();
+    } 
 }
