@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import com.chatop.SpringSecurityAuth.dto.UserDTO;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.model.TokenResponse;
+import com.chatop.SpringSecurityAuth.model.UserResponse;
 import com.chatop.SpringSecurityAuth.services.AuthenticationService;
 
+import java.security.Principal;
 import java.util.Optional;
 
 
@@ -51,5 +53,11 @@ public class AuthenticationController {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok(new TokenResponse(token.get()));
+    }
+
+    @GetMapping("/auth/me")
+    public ResponseEntity<UserResponse> me(Principal principalUser){
+        // Ne pas oublier de mettre le Bearer Token dans Postman
+        return ResponseEntity.ok(authenticationService.me(principalUser.getName()));
     }
 }
