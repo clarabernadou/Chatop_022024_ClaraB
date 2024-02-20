@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.security.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @Entity
@@ -20,9 +24,18 @@ public class User {
 
     private String password;
 
-    @Column(name = "created_at")
-    private Timestamp createdAt;
+    @Column(updatable = false)
+    private LocalDate created_at;
 
-    @Column(name = " updated_at")
-    private Timestamp updatedAt;
+    private LocalDate updated_at;
+
+    @PrePersist
+    protected void onCreate() {
+        created_at = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated_at = LocalDate.now();
+    }
 }
