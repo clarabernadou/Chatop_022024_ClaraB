@@ -26,6 +26,6 @@ public class MessageServiceImpl implements MessageService {
     public Optional<String> createMessage(MessageDTO messageDTO) {
         Message message = modelMapper.map(messageDTO, Message.class);
         messageRepository.save(message);
-        return Optional.of("Message created successfully");
+        return Optional.of("Message send with success");
     }
 }
