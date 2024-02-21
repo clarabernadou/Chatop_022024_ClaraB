@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
 import com.chatop.SpringSecurityAuth.entity.Rental;
+import com.chatop.SpringSecurityAuth.entity.User;
 import com.chatop.SpringSecurityAuth.repository.RentalRepository;
+import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 
 import lombok.Data;
 
@@ -18,13 +20,22 @@ public class RentalServiceImpl implements RentalService {
 
     private ModelMapper modelMapper;
 
-    public RentalServiceImpl(RentalRepository rentalRepository, ModelMapper modelMapper) {
+    private AuthenticationRepository authenticationRepository;
+
+    public RentalServiceImpl(RentalRepository rentalRepository, ModelMapper modelMapper, AuthenticationRepository authenticationRepository) {
         this.rentalRepository = rentalRepository;
         this.modelMapper = modelMapper;
+        this.authenticationRepository = authenticationRepository;
     }
 
     public Optional<String> createRental(RentalDTO rentalDTO) {
         Rental rental = modelMapper.map(rentalDTO, Rental.class);
+
+        if (rentalDTO.getOwnerId() != null) {
+            Optional<User> ownerOptional = authenticationRepository.findById(rentalDTO.getOwnerId());
+            ownerOptional.ifPresent(rental::setOwner);
+        }
+
         rentalRepository.save(rental);
         return Optional.of("Rental created !");
     }

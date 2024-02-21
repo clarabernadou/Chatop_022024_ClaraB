@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Entity
@@ -12,7 +13,10 @@ public class Auth {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<Rental> rentals;
 
     private String email;
 

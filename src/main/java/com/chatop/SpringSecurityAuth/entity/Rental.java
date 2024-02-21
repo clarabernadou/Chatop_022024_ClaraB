@@ -3,6 +3,7 @@ package com.chatop.SpringSecurityAuth.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 @Data
@@ -12,9 +13,20 @@ public class Rental {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    private String message;
+    private String name;
+
+    private Integer surface;
+
+    private Integer price;
+
+    @Column(length = 500)
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
     @Column(updatable = false)
     private LocalDate created_at;
