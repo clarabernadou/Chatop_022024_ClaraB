@@ -58,6 +58,9 @@ public class AuthenticationController {
     @GetMapping("/auth/me")
     public ResponseEntity<UserResponse> me(Principal principalUser){
         // Ne pas oublier de mettre le Bearer Token dans Postman
+        if(principalUser == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return ResponseEntity.ok(authenticationService.me(principalUser.getName()));
     }
 }
