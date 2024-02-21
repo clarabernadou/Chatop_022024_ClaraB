@@ -60,4 +60,13 @@ public class AuthenticationController {
         // Ne pas oublier de mettre le Bearer Token dans Postman
         return ResponseEntity.ok(authenticationService.me(principalUser.getName()));
     }
+
+    @GetMapping("/user/:id")
+    public ResponseEntity<UserResponse> getUser(@PathVariable Integer id){
+        if(id == null) {
+            System.out.println("L'id est null");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return ResponseEntity.ok(authenticationService.getUser(id));
+    }
 }

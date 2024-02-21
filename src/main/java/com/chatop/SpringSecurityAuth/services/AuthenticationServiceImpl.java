@@ -62,4 +62,13 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
         }
         return null;
     }
+
+    @Override
+    public UserResponse getUser(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) {
+            return modelMapper.map(user.get(), UserResponse.class);
+        }
+        return null;
+    }
 }

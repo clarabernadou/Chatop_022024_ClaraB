@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class UserResponse extends UserDTO {
 
+    private Long id;
+
     private String createdAt;
 
     private String updatedAt;
