@@ -36,6 +36,11 @@ public class RentalController {
     @GetMapping("/rentals")
     public ResponseEntity<List<RentalDTO>> getRentals() {
         List<RentalDTO> rentals = rentalService.getRentals();
+
+        if(rentals.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         return ResponseEntity.ok(rentals);
     }
 }
