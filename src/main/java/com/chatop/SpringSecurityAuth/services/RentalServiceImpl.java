@@ -51,13 +51,18 @@ public class RentalServiceImpl implements RentalService {
         System.out.println("Total rentals fetched: " + rentals.size());
 
         List<RentalDTO> rentalDTOs = rentals.stream()
-                                    .map(rental -> {
-                                        System.out.println("Entity created_at: " + rental.getCreated_at());
-                                        System.out.println("Entity updated_at: " + rental.getUpdated_at());
-                                        return modelMapper.map(rental, RentalDTO.class);
-                                    })
-                                    .collect(Collectors.toList());
+                        .map(rental -> {
+                            System.out.println("Entity created_at: " + rental.getCreated_at());
+                            System.out.println("Entity updated_at: " + rental.getUpdated_at());
+                            return modelMapper.map(rental, RentalDTO.class);
+                        })
+                        .collect(Collectors.toList());
 
         return rentalDTOs;
+    }
+
+    public Optional<RentalDTO> getRental(Long id) {
+        Optional<Rental> rentalOptional = rentalRepository.findById(id);
+        return rentalOptional.map(rental -> modelMapper.map(rental, RentalDTO.class));
     }
 }

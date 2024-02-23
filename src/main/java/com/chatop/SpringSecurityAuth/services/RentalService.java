@@ -20,4 +20,12 @@ public interface RentalService {
      * @return List<RentalDTO>
      */
     public List<RentalDTO> getRentals();
+
+    /**
+     *  Get rental by id
+     *
+     * @param id
+     * @return RentalDTO
+     */
+    public Optional<RentalDTO> getRental(Long id);
 }
