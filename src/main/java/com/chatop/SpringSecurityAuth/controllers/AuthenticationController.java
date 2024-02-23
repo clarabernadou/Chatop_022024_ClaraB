@@ -15,6 +15,8 @@ import com.chatop.SpringSecurityAuth.model.UserResponse;
 import com.chatop.SpringSecurityAuth.model.AuthResponse;
 import com.chatop.SpringSecurityAuth.services.AuthenticationService;
 
+import io.micrometer.common.util.StringUtils;
+
 import java.security.Principal;
 import java.util.Optional;
 
@@ -30,18 +32,12 @@ public class AuthenticationController {
     @PostMapping("/auth/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody AuthDTO userDTO, Errors errors) {
         if(errors.hasErrors()) {
-            return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.BAD_REQUEST);
         }
 
         Optional<String> token = authenticationService.createUser(userDTO);
-        if (token.isPresent()) {
-            System.out.println("Le token de création est " + token.get());
-        } else {
-            System.out.println("La création de l'utilisateur a échoué");
-        }
 
         if(token.isEmpty()) {
-            System.out.println("Le token est vide");
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok(new TokenResponse(token.get()));
@@ -60,7 +56,7 @@ public class AuthenticationController {
     @GetMapping("/auth/me")
     public ResponseEntity<AuthResponse> me(Principal principalUser){
         // Ne pas oublier de mettre le Bearer Token dans Postman
-        if(principalUser == null) {
+        if(principalUser == null || StringUtils.isEmpty(principalUser.getName())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok(authenticationService.me(principalUser.getName()));

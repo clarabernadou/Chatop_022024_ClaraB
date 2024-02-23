@@ -1,7 +1,8 @@
 package com.chatop.SpringSecurityAuth.dto;
 
 import java.time.LocalDate;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +11,6 @@ import lombok.Data;
 @Data
 public class RentalDTO {
 
-    @NotNull
     private Long id;
 
     @NotEmpty
@@ -23,17 +23,14 @@ public class RentalDTO {
     private Integer price;
 
     @NotEmpty
-    private List<String> pictures;
-
-    @NotEmpty
     private String description;
 
     @NotNull
     private Long ownerId;
 
-    @NotNull
+    @JsonProperty("created_at")
     private LocalDate createdAt;
 
-    @NotNull
+    @JsonProperty("updated_at")
     private LocalDate updatedAt;
 }
