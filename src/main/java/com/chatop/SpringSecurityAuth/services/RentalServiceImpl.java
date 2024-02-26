@@ -48,14 +48,8 @@ public class RentalServiceImpl implements RentalService {
         List<Rental> rentals = StreamSupport.stream(rentalsIterable.spliterator(), false)
                                             .collect(Collectors.toList());
 
-        System.out.println("Total rentals fetched: " + rentals.size());
-
         List<RentalDTO> rentalDTOs = rentals.stream()
-                        .map(rental -> {
-                            System.out.println("Entity created_at: " + rental.getCreatedAt());
-                            System.out.println("Entity updated_at: " + rental.getUpdatedAt());
-                            return modelMapper.map(rental, RentalDTO.class);
-                        })
+                        .map(rental -> modelMapper.map(rental, RentalDTO.class))
                         .collect(Collectors.toList());
 
         return rentalDTOs;
