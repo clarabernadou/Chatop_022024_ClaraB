@@ -26,7 +26,7 @@ public class Rental {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private Long owner;
+    private User owner;
 
     @Column(updatable = false, name = "created_at")
     private LocalDate createdAt;

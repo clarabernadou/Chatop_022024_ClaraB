@@ -52,8 +52,8 @@ public class RentalServiceImpl implements RentalService {
 
         List<RentalDTO> rentalDTOs = rentals.stream()
                         .map(rental -> {
-                            System.out.println("Entity created_at: " + rental.getCreated_at());
-                            System.out.println("Entity updated_at: " + rental.getUpdated_at());
+                            System.out.println("Entity created_at: " + rental.getCreatedAt());
+                            System.out.println("Entity updated_at: " + rental.getUpdatedAt());
                             return modelMapper.map(rental, RentalDTO.class);
                         })
                         .collect(Collectors.toList());
