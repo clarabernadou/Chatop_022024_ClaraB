@@ -28,4 +28,13 @@ public interface RentalService {
      * @return RentalDTO
      */
     public Optional<RentalDTO> getRental(Long id);
+
+    /**
+     *  Update rental by id
+     * 
+     * @param id
+     * @param rentalDTO
+     * @return String
+     */
+    public Optional<String> updateRental(Long id, RentalDTO rentalDTO);
 }

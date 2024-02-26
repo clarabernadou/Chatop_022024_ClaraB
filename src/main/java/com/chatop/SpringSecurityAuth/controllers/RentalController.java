@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +53,14 @@ public class RentalController {
         }
 
         return ResponseEntity.ok(rentalService.getRental(id));
+    }
+
+    @PutMapping("/rentals/{id}")
+    public ResponseEntity<?> updateRental(@PathVariable Long id, @Valid @RequestBody RentalDTO rentalDTO, Errors errors) {
+        if(rentalService.getRental(id) == null) {
+            return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok(new MessageResponse(rentalService.updateRental(id, rentalDTO).get()));
     }
 }

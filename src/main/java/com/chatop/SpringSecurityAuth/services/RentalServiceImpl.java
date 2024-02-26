@@ -59,4 +59,21 @@ public class RentalServiceImpl implements RentalService {
         Optional<Rental> rentalOptional = rentalRepository.findById(id);
         return rentalOptional.map(rental -> modelMapper.map(rental, RentalDTO.class));
     }
+
+    public Optional<String> updateRental(Long id, RentalDTO rentalDTO) {
+        Optional<Rental> rentalOptional = rentalRepository.findById(id);
+
+        if (rentalOptional.isPresent()) {
+            Rental rental = rentalOptional.get();
+            rental.setName(rentalDTO.getName());
+            rental.setSurface(rentalDTO.getSurface());
+            rental.setPrice(rentalDTO.getPrice());
+            rental.setDescription(rentalDTO.getDescription());
+
+            rentalRepository.save(rental);
+            return Optional.of("Rental updated !");
+        }
+
+        return Optional.empty();
+    }
 }
