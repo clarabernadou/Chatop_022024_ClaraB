@@ -26,20 +26,21 @@ public class Rental {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private User owner;
+    private Long owner;
 
-    @Column(updatable = false)
-    private LocalDate created_at;
+    @Column(updatable = false, name = "created_at")
+    private LocalDate createdAt;
 
-    private LocalDate updated_at;
+    @Column(name = "updated_at")
+    private LocalDate updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDate.now();
+        createdAt = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updated_at = LocalDate.now();
+        updatedAt = LocalDate.now();
     }
 }
