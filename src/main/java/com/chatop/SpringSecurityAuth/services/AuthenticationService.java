@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
 import com.chatop.SpringSecurityAuth.model.AuthResponse;
+import com.chatop.SpringSecurityAuth.model.UserResponse;
 
 public interface AuthenticationService {
     /**
@@ -35,5 +36,5 @@ public interface AuthenticationService {
      * @param id
      * @return {@link Auth}
      */
-    AuthResponse getUser(Long id);
+    UserResponse getUser(Long id);
 }

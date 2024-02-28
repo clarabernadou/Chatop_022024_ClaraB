@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
 import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.model.AuthResponse;
+import com.chatop.SpringSecurityAuth.model.UserResponse;
 import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 
 import java.util.Optional;
@@ -64,10 +65,10 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
     }
 
     @Override
-    public AuthResponse getUser(Long id) {
+    public UserResponse getUser(Long id) {
         Optional<Auth> user = userRepository.findById(id);
         if(user.isPresent()) {
-            return modelMapper.map(user.get(), AuthResponse.class);
+            return modelMapper.map(user.get(), UserResponse.class);
         }
         return null;
     }
