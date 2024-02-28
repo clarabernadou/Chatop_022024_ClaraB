@@ -17,17 +17,17 @@ public class Message {
     private String message;
 
     @Column(updatable = false)
-    private LocalDate created_at;
+    private LocalDate createdAt;
 
-    private LocalDate updated_at;
+    private LocalDate updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDate.now();
+        createdAt = LocalDate.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updated_at = LocalDate.now();
+        updatedAt = LocalDate.now();
     } 
 }
