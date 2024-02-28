@@ -34,14 +34,8 @@ public class AuthenticationController {
         }
 
         Optional<String> token = authenticationService.createUser(userDTO);
-        if (token.isPresent()) {
-            System.out.println("Le token de création est " + token.get());
-        } else {
-            System.out.println("La création de l'utilisateur a échoué");
-        }
 
         if(token.isEmpty()) {
-            System.out.println("Le token est vide");
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok(new TokenResponse(token.get()));
@@ -69,11 +63,9 @@ public class AuthenticationController {
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id){
         UserResponse user = authenticationService.getUser(id);
-
         if(user == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return ResponseEntity.ok(user);
     }
 }

@@ -1,32 +1,37 @@
 package com.chatop.SpringSecurityAuth.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
-
 import java.time.LocalDate;
-import java.util.Set;
+
+import jakarta.persistence.*;
+
+import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "users")
-public class Auth {
+@Table(name = "rentals")
+public class Rental {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<Rental> rentals;
-
-    private String email;
-
     private String name;
 
-    private String password;
+    private Integer surface;
 
-    @Column(updatable = false)
+    private Integer price;
+
+    @Column(length = 500)
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Auth owner;
+
+    @Column(updatable = false, name = "created_at")
     private LocalDate createdAt;
 
+    @Column(name = "updated_at")
     private LocalDate updatedAt;
 
     @PrePersist
