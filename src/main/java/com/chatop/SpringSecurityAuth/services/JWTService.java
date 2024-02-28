@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
-import com.chatop.SpringSecurityAuth.dto.UserDTO;
+import com.chatop.SpringSecurityAuth.dto.AuthDTO;
 
 import java.time.temporal.ChronoUnit;
 import java.time.Instant;
@@ -20,7 +20,7 @@ public class JWTService {
         this.jwtEncoder = jwtEncoder;
     }
 
-    public String generateToken(UserDTO user) {
+    public String generateToken(AuthDTO user) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")

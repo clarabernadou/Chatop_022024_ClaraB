@@ -2,7 +2,8 @@ package com.chatop.SpringSecurityAuth.services;
 
 import java.util.Optional;
 
-import com.chatop.SpringSecurityAuth.dto.UserDTO;
+import com.chatop.SpringSecurityAuth.dto.AuthDTO;
+import com.chatop.SpringSecurityAuth.model.AuthResponse;
 import com.chatop.SpringSecurityAuth.model.UserResponse;
 
 public interface AuthenticationService {
@@ -12,7 +13,7 @@ public interface AuthenticationService {
      * @param userDTO
      * @return String
      */
-    Optional<String>createUser(UserDTO userDTO);
+    Optional<String>createUser(AuthDTO userDTO);
 
     /**
      * Check if the user is in the database
@@ -20,12 +21,19 @@ public interface AuthenticationService {
      * @param userDTO
      * @return Optional<String>
      */
-    Optional<String> login(UserDTO userDTO);
-    
+    Optional<String> login(AuthDTO userDTO);
+
     /**
      *
      * @param email
-     * @return {@link User}
+     * @return {@link Auth}
      */
-    UserResponse me(String email);
+    AuthResponse me(String email);
+
+    /**
+     *
+     * @param id
+     * @return {@link Auth}
+     */
+    UserResponse getUser(Long id);
 }
