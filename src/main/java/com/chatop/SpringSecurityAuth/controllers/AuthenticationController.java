@@ -30,12 +30,12 @@ public class AuthenticationController {
 
 
     @PostMapping("/auth/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody AuthDTO userDTO, Errors errors) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody AuthDTO AuthDTO, Errors errors) {
         if(errors.hasErrors()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.BAD_REQUEST);
         }
 
-        Optional<String> token = authenticationService.createUser(userDTO);
+        Optional<String> token = authenticationService.createUser(AuthDTO);
 
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
@@ -44,9 +44,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@RequestBody AuthDTO userDTO) {
+    public ResponseEntity<?> login(@RequestBody AuthDTO AuthDTO) {
 
-        Optional<String> token = authenticationService.login(userDTO);
+        Optional<String> token = authenticationService.login(AuthDTO);
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }

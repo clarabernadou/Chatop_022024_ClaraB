@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
 import com.chatop.SpringSecurityAuth.model.AuthResponse;
-import com.chatop.SpringSecurityAuth.model.UserResponse;
 
 public interface AuthenticationService {
     /**
@@ -23,6 +22,7 @@ public interface AuthenticationService {
      */
     Optional<String> login(AuthDTO userDTO);
 
+    
     /**
      *
      * @param email
@@ -35,5 +35,5 @@ public interface AuthenticationService {
      * @param id
      * @return {@link Auth}
      */
-    UserResponse getUser(Long id);
+    AuthResponse getUser(Long id);
 }

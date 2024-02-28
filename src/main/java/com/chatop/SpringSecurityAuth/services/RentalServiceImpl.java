@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
 import com.chatop.SpringSecurityAuth.entity.Rental;
-import com.chatop.SpringSecurityAuth.entity.User;
+import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.repository.RentalRepository;
 import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 
@@ -35,7 +35,7 @@ public class RentalServiceImpl implements RentalService {
         Rental rental = modelMapper.map(rentalDTO, Rental.class);
 
         if (rentalDTO.getOwnerId() != null) {
-            Optional<User> ownerOptional = authenticationRepository.findById(rentalDTO.getOwnerId());
+            Optional<Auth> ownerOptional = authenticationRepository.findById(rentalDTO.getOwnerId());
             ownerOptional.ifPresent(rental::setOwner);
         }
 
