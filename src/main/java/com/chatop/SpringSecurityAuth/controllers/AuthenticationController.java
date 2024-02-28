@@ -69,9 +69,11 @@ public class AuthenticationController {
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id){
         UserResponse user = authenticationService.getUser(id);
+
         if(user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+
         return ResponseEntity.ok(user);
     }
 }
