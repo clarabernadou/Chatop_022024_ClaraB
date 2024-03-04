@@ -6,9 +6,12 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
+import com.chatop.SpringSecurityAuth.dto.RentalPicturesDTO;
 import com.chatop.SpringSecurityAuth.entity.Rental;
 import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.repository.RentalRepository;
@@ -31,11 +34,11 @@ public class RentalServiceImpl implements RentalService {
         this.authenticationRepository = authenticationRepository;
     }
 
-    public Optional<String> createRental(RentalDTO rentalDTO) {
-        Rental rental = modelMapper.map(rentalDTO, Rental.class);
+    public Optional<String> createRental(RentalPicturesDTO rentalPicturesDTO, MultipartFile[] pictures) throws NotFoundException {
+        Rental rental = modelMapper.map(rentalPicturesDTO, Rental.class);
 
-        if (rentalDTO.getOwnerId() != null) {
-            Optional<Auth> ownerOptional = authenticationRepository.findById(rentalDTO.getOwnerId());
+        if (rentalPicturesDTO.getOwnerId() != null) {
+            Optional<Auth> ownerOptional = authenticationRepository.findById(rentalPicturesDTO.getOwnerId());
             ownerOptional.ifPresent(rental::setOwner);
         }
 
@@ -43,16 +46,16 @@ public class RentalServiceImpl implements RentalService {
         return Optional.of("Rental created !");
     }
 
-    public List<RentalDTO> getRentals() {
+    public List<RentalPicturesDTO> getRentals() {
         Iterable<Rental> rentalsIterable = rentalRepository.findAll();
         List<Rental> rentals = StreamSupport.stream(rentalsIterable.spliterator(), false)
                                             .collect(Collectors.toList());
-
-        List<RentalDTO> rentalDTOs = rentals.stream()
-                        .map(rental -> modelMapper.map(rental, RentalDTO.class))
+    
+        List<RentalPicturesDTO> rentalPicturesDTOs = rentals.stream()
+                        .map(rental -> modelMapper.map(rental, RentalPicturesDTO.class))
                         .collect(Collectors.toList());
-
-        return rentalDTOs;
+    
+        return rentalPicturesDTOs;
     }
 
     public Optional<RentalDTO> getRental(Long id) {
@@ -75,5 +78,11 @@ public class RentalServiceImpl implements RentalService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<String> createRental(RentalDTO rentalDTO) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createRental'");
     }
 }

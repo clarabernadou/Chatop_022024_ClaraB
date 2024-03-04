@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
+import com.chatop.SpringSecurityAuth.dto.RentalPicturesDTO;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.services.RentalService;
 
@@ -41,12 +42,12 @@ public class RentalController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping("/rentals")
-    public ResponseEntity<?> createRental(@Valid @RequestBody RentalDTO rentalDTO, Errors errors) {
+    public ResponseEntity<?> createRental(@Valid @RequestBody RentalPicturesDTO rentalPicturesDTO, Errors errors) {
         if(errors.hasErrors()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
 
-        return ResponseEntity.ok(new MessageResponse(rentalService.createRental(rentalDTO).get()));
+        return ResponseEntity.ok(new MessageResponse(rentalService.createRental(rentalPicturesDTO).get()));
     }
 
     @Operation(summary = "Get all Rentals", tags = { "rentals", "get" })
@@ -55,8 +56,8 @@ public class RentalController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @GetMapping("/rentals")
-    public ResponseEntity<List<RentalDTO>> getRentals() {
-        List<RentalDTO> rentals = rentalService.getRentals();
+    public ResponseEntity<List<RentalPicturesDTO>> getRentals() {
+        List<RentalPicturesDTO> rentals = rentalService.getRentals();
 
         if(rentals.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

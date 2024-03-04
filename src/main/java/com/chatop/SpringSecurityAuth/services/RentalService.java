@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
+import com.chatop.SpringSecurityAuth.dto.RentalPicturesDTO;
 
 public interface RentalService { 
     /**
@@ -19,7 +20,7 @@ public interface RentalService {
      *
      * @return List<RentalDTO>
      */
-    public List<RentalDTO> getRentals();
+    public List<RentalPicturesDTO> getRentals();
 
     /**
      *  Get rental by id
