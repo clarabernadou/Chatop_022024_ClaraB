@@ -24,11 +24,11 @@ public interface RentalService {
 
     /**
      *  Get rental by id
-     *
+     * 
      * @param id
-     * @return RentalDTO
+     * @return Optional<RentalDTO>
      */
-    public Optional<RentalDTO> getRental(Long id);
+    public Optional<RentalPicturesDTO> getRental(Long id);
 
     /**
      *  Update rental by id

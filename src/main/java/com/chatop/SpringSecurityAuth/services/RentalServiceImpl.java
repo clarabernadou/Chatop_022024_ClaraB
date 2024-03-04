@@ -6,9 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
 import com.chatop.SpringSecurityAuth.dto.RentalPicturesDTO;
@@ -34,7 +32,7 @@ public class RentalServiceImpl implements RentalService {
         this.authenticationRepository = authenticationRepository;
     }
 
-    public Optional<String> createRental(RentalPicturesDTO rentalPicturesDTO, MultipartFile[] pictures) throws NotFoundException {
+    public Optional<String> createRental(RentalPicturesDTO rentalPicturesDTO) {
         Rental rental = modelMapper.map(rentalPicturesDTO, Rental.class);
 
         if (rentalPicturesDTO.getOwnerId() != null) {
@@ -50,17 +48,24 @@ public class RentalServiceImpl implements RentalService {
         Iterable<Rental> rentalsIterable = rentalRepository.findAll();
         List<Rental> rentals = StreamSupport.stream(rentalsIterable.spliterator(), false)
                                             .collect(Collectors.toList());
-    
+
         List<RentalPicturesDTO> rentalPicturesDTOs = rentals.stream()
                         .map(rental -> modelMapper.map(rental, RentalPicturesDTO.class))
                         .collect(Collectors.toList());
-    
+
         return rentalPicturesDTOs;
     }
 
-    public Optional<RentalDTO> getRental(Long id) {
+    public Optional<RentalPicturesDTO> getRental(Long id) {
         Optional<Rental> rentalOptional = rentalRepository.findById(id);
-        return rentalOptional.map(rental -> modelMapper.map(rental, RentalDTO.class));
+
+        if (rentalOptional.isPresent()) {
+            Rental rental = rentalOptional.get();
+            RentalPicturesDTO rentalPicturesDTO = modelMapper.map(rental, RentalPicturesDTO.class);
+            return Optional.of(rentalPicturesDTO);
+        }
+
+        return Optional.empty();
     }
 
     public Optional<String> updateRental(Long id, RentalDTO rentalDTO) {
@@ -78,11 +83,5 @@ public class RentalServiceImpl implements RentalService {
         }
 
         return Optional.empty();
-    }
-
-    @Override
-    public Optional<String> createRental(RentalDTO rentalDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createRental'");
     }
 }
