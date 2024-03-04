@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
-import com.chatop.SpringSecurityAuth.dto.UserDTO;
+import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.model.TokenResponse;
 import com.chatop.SpringSecurityAuth.model.UserResponse;
@@ -39,9 +39,8 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
     })
     @PostMapping("/auth/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody AuthDTO userDTO, Errors errors) {
-
-        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.createUser(userDTO);
+    public ResponseEntity<?> createUser(@Valid @RequestBody AuthDTO authDto, Errors errors) {
+        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.createUser(authDto);
 
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
@@ -55,9 +54,8 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
     })
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody AuthDTO userDTO, Errors errors) {
-
-        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.login(userDTO);
+    public ResponseEntity<?> login(@Valid @RequestBody AuthDTO authDto, Errors errors) {
+        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.login(authDto);
 
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
@@ -80,11 +78,11 @@ public class AuthenticationController {
 
     @Operation(summary = "Get user by ID", tags = { "auth", "get" })
     @ApiResponses({
-        @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class)) }),
+        @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Auth.class)) }),
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
     })
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable Long id){
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long id){
         UserResponse user = authenticationService.getUser(id);
         if(user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
