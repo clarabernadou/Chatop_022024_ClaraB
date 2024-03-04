@@ -40,11 +40,8 @@ public class AuthenticationController {
     })
     @PostMapping("/auth/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody AuthDTO userDTO, Errors errors) {
-        if(errors.hasErrors()) {
-            return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.NOT_FOUND);
-        }
 
-        Optional<String> token = authenticationService.createUser(userDTO);
+        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.createUser(userDTO);
 
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
@@ -58,9 +55,10 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
     })
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@RequestBody AuthDTO userDTO) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthDTO userDTO, Errors errors) {
 
-        Optional<String> token = authenticationService.login(userDTO);
+        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.login(userDTO);
+
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
@@ -89,7 +87,7 @@ public class AuthenticationController {
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id){
         UserResponse user = authenticationService.getUser(id);
         if(user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok(user);
     }
