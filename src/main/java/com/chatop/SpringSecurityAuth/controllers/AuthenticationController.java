@@ -1,7 +1,6 @@
 package com.chatop.SpringSecurityAuth.controllers;
 
 import jakarta.validation.Valid;
-import org.modelmapper.internal.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +36,12 @@ public class AuthenticationController {
 
     @Operation(summary = "Register a new user", tags = { "auth", "post" })
     @ApiResponses({
-        @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = TokenResponse.class)) }),
-        @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
+        @ApiResponse(responseCode = "200", description = "Successful registration", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = TokenResponse.class)) }),
+        @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping("/auth/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody AuthNameDTO authNameDTO, Errors errors) {
-        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.createUser(authNameDTO);
+    public ResponseEntity<?> createUser(@Valid @RequestBody AuthNameDTO authNameDTO) {
+        Optional<String> token = authenticationService.createUser(authNameDTO);
 
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
@@ -56,8 +55,8 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
     })
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody AuthDTO authDto, Errors errors) {
-        Optional<String> token = errors.hasErrors() ? Optional.empty() : authenticationService.login(authDto);
+    public ResponseEntity<?> login(@Valid @RequestBody AuthDTO authDto) {
+        Optional<String> token = authenticationService.login(authDto);
 
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
