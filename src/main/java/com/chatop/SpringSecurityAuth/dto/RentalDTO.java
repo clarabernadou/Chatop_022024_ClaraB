@@ -30,6 +30,8 @@ public class RentalDTO {
     @Schema(description = "Rental's description", example = "This is a description.")
     private String description;
 
+    private String picture;
+
     @NotNull
     @Schema(description = "Rental's owner id", example = "1")
     private Long ownerId;

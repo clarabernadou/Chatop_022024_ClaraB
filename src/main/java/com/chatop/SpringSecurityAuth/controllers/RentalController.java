@@ -58,8 +58,8 @@ public class RentalController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @GetMapping("/rentals")
-    public ResponseEntity<List<RentalPicturesDTO>> getRentals() {
-        List<RentalPicturesDTO> rentals = rentalService.getRentals();
+    public ResponseEntity<List<RentalDTO>> getRentals() {
+        List<RentalDTO> rentals = rentalService.getRentals();
 
         if(rentals.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

@@ -22,7 +22,7 @@ public interface RentalService {
      *
      * @return List<RentalDTO>
      */
-    public List<RentalPicturesDTO> getRentals();
+    public List<RentalDTO> getRentals();
 
     /**
      *  Get rental by id

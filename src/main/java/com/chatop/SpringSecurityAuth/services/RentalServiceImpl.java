@@ -82,16 +82,16 @@ public class RentalServiceImpl implements RentalService {
         return Optional.of("Rental created !");
     }
 
-    public List<RentalPicturesDTO> getRentals() {
+    public List<RentalDTO> getRentals() {
         Iterable<Rental> rentalsIterable = rentalRepository.findAll();
         List<Rental> rentals = StreamSupport.stream(rentalsIterable.spliterator(), false)
                                             .collect(Collectors.toList());
 
-        List<RentalPicturesDTO> rentalPicturesDTOs = rentals.stream()
-                        .map(rental -> modelMapper.map(rental, RentalPicturesDTO.class))
+        List<RentalDTO> rentalDTOs = rentals.stream()
+                        .map(rental -> modelMapper.map(rental, RentalDTO.class))
                         .collect(Collectors.toList());
 
-        return rentalPicturesDTOs;
+        return rentalDTOs;
     }
 
     public Optional<RentalPicturesDTO> getRental(Long id) {
