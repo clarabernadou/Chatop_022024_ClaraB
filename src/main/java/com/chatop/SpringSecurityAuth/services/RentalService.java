@@ -1,18 +1,21 @@
 package com.chatop.SpringSecurityAuth.services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
+import com.chatop.SpringSecurityAuth.dto.RentalPictureDTO;
 
 public interface RentalService { 
     /**
      *  Create a new rental
      *
-     * @param rentalDTO
+     * @param rentalPictureDTO
      * @return String
+     * @throws IOException 
      */
-    public Optional<String> createRental(RentalDTO rentalDTO);
+    public Optional<String> createRental(RentalPictureDTO pictureDTO) throws IOException;
 
     /**
      *  Get all rentals
@@ -23,11 +26,11 @@ public interface RentalService {
 
     /**
      *  Get rental by id
-     *
+     * 
      * @param id
-     * @return RentalDTO
+     * @return Optional<RentalDTO>
      */
-    public Optional<RentalDTO> getRental(Long id);
+    public Optional<RentalPictureDTO> getRental(Long id);
 
     /**
      *  Update rental by id

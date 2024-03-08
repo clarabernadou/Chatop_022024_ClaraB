@@ -25,6 +25,8 @@ public class RentalDTO {
     @NotEmpty
     private String description;
 
+    private String picture;
+
     @NotNull
     private Long ownerId;
 

@@ -24,6 +24,8 @@ public class Rental {
     @Column(length = 500)
     private String description;
 
+    private String picture;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Auth owner;
