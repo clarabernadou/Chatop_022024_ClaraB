@@ -77,7 +77,7 @@ public class RentalServiceImpl implements RentalService {
         uploadFileAndReturnURL(rentalPictureDTO.getPicture(), rentalPictureDTO.getOwnerId());
         String pictureURL = uploadFileAndReturnURL(rentalPictureDTO.getPicture(), rentalPictureDTO.getOwnerId());
 
-        rental.setPicture(pictureURL);
+        rental.setPictureURL(pictureURL);
         rentalRepository.save(rental);
         return Optional.of("Rental created !");
     }
