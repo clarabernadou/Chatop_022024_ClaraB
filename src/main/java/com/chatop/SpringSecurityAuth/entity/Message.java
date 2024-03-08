@@ -16,9 +16,14 @@ public class Message {
 
     private String message;
 
-    @Column(updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Auth userId;
+
+    @Column(updatable = false, name = "created_at")
     private LocalDate createdAt;
 
+    @Column(name = "updated_at")
     private LocalDate updatedAt;
 
     @PrePersist
@@ -29,5 +34,5 @@ public class Message {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDate.now();
-    } 
+    }
 }

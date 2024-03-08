@@ -18,6 +18,9 @@ public class Auth {
     @OneToMany(mappedBy = "owner")
     private Set<Rental> rentals;
 
+    @OneToMany(mappedBy = "userId")
+    private Set<Message> messages;
+
     private String email;
 
     private String name;
