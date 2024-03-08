@@ -1,5 +1,6 @@
 package com.chatop.SpringSecurityAuth.services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,10 +11,11 @@ public interface RentalService {
     /**
      *  Create a new rental
      *
-     * @param rentalDTO
+     * @param rentalPicturesDTO
      * @return String
+     * @throws IOException 
      */
-    public Optional<String> createRental(RentalDTO rentalDTO);
+    public Optional<String> createRental(RentalPicturesDTO picturesDTO) throws IOException;
 
     /**
      *  Get all rentals

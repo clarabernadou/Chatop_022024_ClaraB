@@ -1,5 +1,6 @@
 package com.chatop.SpringSecurityAuth.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.modelmapper.internal.Errors;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,7 +44,7 @@ public class RentalController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping("/rentals")
-    public ResponseEntity<?> createRental(@Valid @RequestBody RentalPicturesDTO rentalPicturesDTO, Errors errors) {
+    public ResponseEntity<?> createRental(@Valid @ModelAttribute RentalPicturesDTO rentalPicturesDTO, Errors errors) throws IOException {
         if(errors.hasErrors()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
