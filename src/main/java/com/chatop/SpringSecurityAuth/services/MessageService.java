@@ -7,7 +7,7 @@ import com.chatop.SpringSecurityAuth.dto.MessageDTO;
 public interface MessageService {
     /**
      *  Create a new message
-     *
+     * 
      * @param messageDTO
      * @return String
      */

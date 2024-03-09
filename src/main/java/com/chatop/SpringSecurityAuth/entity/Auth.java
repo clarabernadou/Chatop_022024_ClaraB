@@ -18,6 +18,10 @@ public class Auth {
     @OneToMany(mappedBy = "owner")
     private Set<Rental> rentals;
 
+    @OneToMany(mappedBy = "userId")
+    private Set<Message> rentalMessages;
+
+    @Column(unique = true)
     private String email;
 
     private String name;

@@ -31,6 +31,8 @@ public class MessageController {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.BAD_REQUEST);
         }
 
+        System.out.printf("MESSAGE : " + messageDTO.getMessage(), "USER : " + messageDTO.getUserId(), "RENTAL : " + messageDTO.getRentalId());
+
         return ResponseEntity.ok(new MessageResponse(messageService.createMessage(messageDTO).get()));
     }
 }
