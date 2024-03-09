@@ -27,11 +27,9 @@ public class MessageController {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
 
-        if(messageDTO.getMessage().length() < 5) {
+        if(messageDTO.getMessage().length() < 1 || messageDTO.getMessage().length() > 255){
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.BAD_REQUEST);
         }
-
-        System.out.printf("MESSAGE : " + messageDTO.getMessage(), "USER : " + messageDTO.getUserId(), "RENTAL : " + messageDTO.getRentalId());
 
         return ResponseEntity.ok(new MessageResponse(messageService.createMessage(messageDTO).get()));
     }
