@@ -19,8 +19,9 @@ public class Auth {
     private Set<Rental> rentals;
 
     @OneToMany(mappedBy = "userId")
-    private Set<Message> messages;
+    private Set<Message> rentalMessages;
 
+    @Column(unique = true)
     private String email;
 
     private String name;

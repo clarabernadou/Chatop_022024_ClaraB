@@ -12,4 +12,7 @@ public class MessageDTO {
 
     @NotNull
     private Integer userId;
+
+    @NotNull
+    private Integer rentalId;
 }

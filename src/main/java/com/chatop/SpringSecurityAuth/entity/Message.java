@@ -20,6 +20,10 @@ public class Message {
     @JoinColumn(name = "user_id")
     private Auth userId;
 
+    @ManyToOne
+    @JoinColumn(name = "rental_id")
+    private Rental rentalId;
+
     @Column(updatable = false, name = "created_at")
     private LocalDate createdAt;
 

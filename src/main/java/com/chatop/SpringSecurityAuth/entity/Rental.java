@@ -1,6 +1,7 @@
 package com.chatop.SpringSecurityAuth.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -14,6 +15,9 @@ public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "rentalId")
+    private Set<Message> rentalMessages;
 
     private String name;
 
