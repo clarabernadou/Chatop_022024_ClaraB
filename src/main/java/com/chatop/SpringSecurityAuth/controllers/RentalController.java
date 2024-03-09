@@ -20,10 +20,12 @@ import com.chatop.SpringSecurityAuth.dto.RentalPictureDTO;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.services.RentalService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Rental")
 public class RentalController {
     @Autowired
     private RentalService rentalService;

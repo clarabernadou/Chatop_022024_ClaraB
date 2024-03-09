@@ -13,10 +13,12 @@ import com.chatop.SpringSecurityAuth.dto.MessageDTO;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.services.MessageService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Message")
 public class MessageController {
     @Autowired
     private MessageService messageService;
