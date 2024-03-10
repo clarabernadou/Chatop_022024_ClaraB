@@ -20,14 +20,26 @@ import com.chatop.SpringSecurityAuth.dto.RentalPictureDTO;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.services.RentalService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Rental")
 public class RentalController {
     @Autowired
     private RentalService rentalService;
 
+    @Operation(summary = "Create", description="Create a new rental", tags = { "Rental" })
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Rental created", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class)) }),
+        @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    })
     @PostMapping("/rentals")
     public ResponseEntity<?> createRental(@Valid @ModelAttribute RentalPictureDTO rentalPictureDTO, Errors errors) throws IOException {
         if(errors.hasErrors()) {
@@ -37,6 +49,11 @@ public class RentalController {
         return ResponseEntity.ok(new MessageResponse(rentalService.createRental(rentalPictureDTO).get()));
     }
 
+    @Operation(summary = "Get", description="Get all rentals", tags = { "Rental" })
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Rentals found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RentalDTO.class)) }),
+        @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    })
     @GetMapping("/rentals")
     public ResponseEntity<List<RentalDTO>> getRentals() {
         List<RentalDTO> rentals = rentalService.getRentals();
@@ -48,6 +65,11 @@ public class RentalController {
         return ResponseEntity.ok(rentals);
     }
 
+    @Operation(summary = "Get", description="Get a rental by id", tags = { "Rental" })
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Rental found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RentalDTO.class)) }),
+        @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    })
     @GetMapping("/rentals/{id}")
     public ResponseEntity<?> getRental(@PathVariable Long id) {
         if(rentalService.getRental(id) == null) {
@@ -57,6 +79,11 @@ public class RentalController {
         return ResponseEntity.ok(rentalService.getRental(id));
     }
 
+    @Operation(summary = "Update", description="Update a rental by id", tags = { "Rental" })
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Rental updated", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class)) }),
+        @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    })
     @PutMapping("/rentals/{id}")
     public ResponseEntity<?> updateRental(@PathVariable Long id, @Valid @ModelAttribute RentalDTO rentalDTO, Errors errors) {
         if(errors.hasErrors() || rentalService.getRental(id) == null) {
