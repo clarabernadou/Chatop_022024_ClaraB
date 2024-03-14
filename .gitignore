@@ -1,0 +1,3 @@
+# Ignore the image directory
+src/main/resources/static/images
+target/classes/static/images
