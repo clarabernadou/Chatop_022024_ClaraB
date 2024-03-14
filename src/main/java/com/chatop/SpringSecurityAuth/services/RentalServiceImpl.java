@@ -1,14 +1,13 @@
 package com.chatop.SpringSecurityAuth.services;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -36,12 +35,10 @@ public class RentalServiceImpl implements RentalService {
 
     private AuthenticationRepository authenticationRepository;
 
-    @Value("${picture-upload-directory}")
-    private String uploadDir;
-    @Value("${picture-upload-directory-path}")
-    private String uploadDirPath;
-    @Value("${root-url}")
-    private String rootUrl;
+    @Value("${server.url}")
+    private String serverUrl; 
+    @Value("${spring.servlet.multipart.max-file-size}")
+    private String maxFileSize;
 
     public RentalServiceImpl(RentalRepository rentalRepository, ModelMapper modelMapper, AuthenticationRepository authenticationRepository) {
         this.rentalRepository = rentalRepository;
@@ -49,21 +46,20 @@ public class RentalServiceImpl implements RentalService {
         this.authenticationRepository = authenticationRepository;
     }
 
-    private String uploadFileAndReturnURL(MultipartFile pictureFile, Long ownerId) throws IOException {
-        String fileName = StringUtils.cleanPath(pictureFile.getOriginalFilename());
-        Path uploadPath = Paths.get(uploadDirPath + uploadDir);
+    public String saveImage(MultipartFile file) throws IOException {
+        if (file.getSize() > Long.parseLong(maxFileSize)) {
+            throw new IOException("File size too large !");
+        }
+
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        Path uploadPath = Paths.get("src/main/resources/static/images/");
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
-        fileName = UUID.randomUUID() + fileName;
-        String URL = rootUrl + "/" + uploadDir + "/" + fileName;
-        try (InputStream inputStream = pictureFile.getInputStream()) {
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ioe) {
-            throw new IOException("Could not save image file: " + fileName, ioe);
-        }
-        return URL;
+
+        Path filePath = uploadPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        return serverUrl + "/images/" + fileName;
     }
 
     public Optional<String> createRental(RentalPictureDTO rentalPictureDTO) throws IOException {
@@ -74,8 +70,8 @@ public class RentalServiceImpl implements RentalService {
             ownerOptional.ifPresent(rental::setOwner);
         }
 
-        uploadFileAndReturnURL(rentalPictureDTO.getPicture(), rentalPictureDTO.getOwnerId());
-        String pictureURL = uploadFileAndReturnURL(rentalPictureDTO.getPicture(), rentalPictureDTO.getOwnerId());
+        saveImage(rentalPictureDTO.getPicture());
+        String pictureURL = saveImage(rentalPictureDTO.getPicture());
 
         rental.setPictureURL(pictureURL);
         rentalRepository.save(rental);
