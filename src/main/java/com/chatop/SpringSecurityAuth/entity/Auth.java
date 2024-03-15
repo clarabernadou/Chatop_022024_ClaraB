@@ -36,6 +36,7 @@ public class Auth {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
     }
 
     @PreUpdate
