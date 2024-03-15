@@ -2,6 +2,7 @@ package com.chatop.SpringSecurityAuth.dto;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,15 +33,18 @@ public class RentalDTO {
     private String description;
 
     @Schema(description = "Rental's picture URL", example = "http://localhost:8080/api/rentals/images/image.JPEG")
+    @JsonProperty("picture")
     private String pictureURL;
 
     @Schema(description = "Owner's id", example = "1")
-    @NotNull
+    @JsonProperty("owner_id")
     private Long ownerId;
 
     @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private LocalDate createdAt;
 
     @JsonProperty("updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private LocalDate updatedAt;
 }
