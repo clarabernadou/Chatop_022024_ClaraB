@@ -7,22 +7,27 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.Cloudinary;
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
 import com.chatop.SpringSecurityAuth.dto.RentalPictureDTO;
 import com.chatop.SpringSecurityAuth.entity.Rental;
 import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.repository.RentalRepository;
+import com.cloudinary.utils.ObjectUtils;
 import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 
 import lombok.Data;
@@ -35,6 +40,9 @@ public class RentalServiceImpl implements RentalService {
     private ModelMapper modelMapper;
 
     private AuthenticationRepository authenticationRepository;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Value("${server.url}")
     private String serverUrl; 
@@ -58,9 +66,11 @@ public class RentalServiceImpl implements RentalService {
             Files.createDirectories(uploadPath);
         }
 
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        return serverUrl + "/images/" + fileName;
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+        return uploadResult.get("url").toString();
+        // Path filePath = uploadPath.resolve(fileName);
+        // Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        // return serverUrl + "/images/" + fileName;
     }
 
     public Optional<String> createRental(RentalPictureDTO rentalPictureDTO, Principal principalUser) throws IOException {
