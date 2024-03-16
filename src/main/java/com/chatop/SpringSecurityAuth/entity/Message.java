@@ -33,6 +33,7 @@ public class Message {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
     }
 
     @PreUpdate

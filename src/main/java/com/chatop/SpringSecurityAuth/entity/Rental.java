@@ -43,6 +43,7 @@ public class Rental {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
     }
 
     @PreUpdate
