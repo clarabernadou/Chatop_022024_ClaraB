@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,13 +63,9 @@ public class RentalServiceImpl implements RentalService {
         return serverUrl + "/images/" + fileName;
     }
 
-    public Optional<String> createRental(RentalPictureDTO rentalPictureDTO) throws IOException {
+    public Optional<String> createRental(RentalPictureDTO rentalPictureDTO, Principal principalUser) throws IOException {
         Rental rental = modelMapper.map(rentalPictureDTO, Rental.class);
-
-        if (rentalPictureDTO.getOwnerId() != null) {
-            Optional<Auth> ownerOptional = authenticationRepository.findById(rentalPictureDTO.getOwnerId());
-            ownerOptional.ifPresent(rental::setOwner);
-        }
+        authenticationRepository.findByEmail(principalUser.getName()).ifPresent(rental::setOwner);
 
         saveImage(rentalPictureDTO.getPicture());
         String pictureURL = saveImage(rentalPictureDTO.getPicture());
@@ -102,8 +99,17 @@ public class RentalServiceImpl implements RentalService {
         return Optional.empty();
     }
 
-    public Optional<String> updateRental(Long id, RentalDTO rentalDTO) {
+    public Optional<String> updateRental(Long id, RentalDTO rentalDTO, Principal principalUser) {
+        Optional<Auth> user = authenticationRepository.findByEmail(principalUser.getName());
+        if (user.isEmpty()) {
+            return Optional.empty();
+        }
+
         Optional<Rental> rentalOptional = rentalRepository.findById(id);
+
+        if (user.get().getId() != rentalOptional.get().getOwner().getId()) {
+            return Optional.empty();
+        }
 
         if (rentalOptional.isPresent()) {
             Rental rental = rentalOptional.get();

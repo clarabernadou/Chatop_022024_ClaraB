@@ -1,6 +1,7 @@
 package com.chatop.SpringSecurityAuth.controllers;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import org.modelmapper.internal.Errors;
@@ -41,12 +42,12 @@ public class RentalController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping("/rentals")
-    public ResponseEntity<?> createRental(@Valid @ModelAttribute RentalPictureDTO rentalPictureDTO, Errors errors) throws IOException {
+    public ResponseEntity<?> createRental(@Valid @ModelAttribute RentalPictureDTO rentalPictureDTO, Principal principalUser, Errors errors) throws IOException {
         if(errors.hasErrors()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
 
-        return ResponseEntity.ok(new MessageResponse(rentalService.createRental(rentalPictureDTO).get()));
+        return ResponseEntity.ok(new MessageResponse(rentalService.createRental(rentalPictureDTO, principalUser).get()));
     }
 
     @Operation(summary = "Get", description="Get all rentals", tags = { "Rental" })
@@ -85,11 +86,11 @@ public class RentalController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PutMapping("/rentals/{id}")
-    public ResponseEntity<?> updateRental(@PathVariable Long id, @Valid @ModelAttribute RentalDTO rentalDTO, Errors errors) {
+    public ResponseEntity<?> updateRental(@PathVariable Long id, @Valid @ModelAttribute RentalDTO rentalDTO, Principal principalUser, Errors errors) {
         if(errors.hasErrors() || rentalService.getRental(id) == null) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
         }
 
-        return ResponseEntity.ok(new MessageResponse(rentalService.updateRental(id, rentalDTO).get()));
+        return ResponseEntity.ok(new MessageResponse(rentalService.updateRental(id, rentalDTO, principalUser).get()));
     }
 }

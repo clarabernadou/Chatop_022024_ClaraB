@@ -1,6 +1,7 @@
 package com.chatop.SpringSecurityAuth.services;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public interface RentalService {
      * @return String
      * @throws IOException 
      */
-    public Optional<String> createRental(RentalPictureDTO pictureDTO) throws IOException;
+    public Optional<String> createRental(RentalPictureDTO pictureDTO, Principal principalUser) throws IOException;
 
     /**
      *  Get all rentals
@@ -39,5 +40,5 @@ public interface RentalService {
      * @param rentalDTO
      * @return String
      */
-    public Optional<String> updateRental(Long id, RentalDTO rentalDTO);
+    public Optional<String> updateRental(Long id, RentalDTO rentalDTO, Principal principalUser);
 }
