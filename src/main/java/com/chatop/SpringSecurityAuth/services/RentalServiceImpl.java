@@ -1,14 +1,9 @@
 package com.chatop.SpringSecurityAuth.services;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -16,9 +11,7 @@ import java.util.stream.StreamSupport;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
@@ -60,17 +53,8 @@ public class RentalServiceImpl implements RentalService {
             throw new IOException("File size too large !");
         }
 
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        Path uploadPath = Paths.get("src/main/resources/static/images/");
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
         return uploadResult.get("url").toString();
-        // Path filePath = uploadPath.resolve(fileName);
-        // Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        // return serverUrl + "/images/" + fileName;
     }
 
     public Optional<String> createRental(RentalPictureDTO rentalPictureDTO, Principal principalUser) throws IOException {
