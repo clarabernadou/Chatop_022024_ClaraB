@@ -61,7 +61,6 @@ public class RentalServiceImpl implements RentalService {
         Rental rental = modelMapper.map(rentalPictureDTO, Rental.class);
         authenticationRepository.findByEmail(principalUser.getName()).ifPresent(rental::setOwner);
 
-        saveImage(rentalPictureDTO.getPicture());
         String pictureURL = saveImage(rentalPictureDTO.getPicture());
 
         rental.setPictureURL(pictureURL);
