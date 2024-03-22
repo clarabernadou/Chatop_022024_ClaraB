@@ -31,7 +31,7 @@ public interface RentalService {
      * @param id
      * @return Optional<RentalDTO>
      */
-    public Optional<RentalPictureDTO> getRental(Long id);
+    public Optional<RentalDTO> getRental(Long id);
 
     /**
      *  Update rental by id

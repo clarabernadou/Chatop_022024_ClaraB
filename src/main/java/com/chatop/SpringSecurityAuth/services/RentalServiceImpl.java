@@ -80,13 +80,13 @@ public class RentalServiceImpl implements RentalService {
         return rentalDTOs;
     }
 
-    public Optional<RentalPictureDTO> getRental(Long id) {
+    public Optional<RentalDTO> getRental(Long id) {
         Optional<Rental> rentalOptional = rentalRepository.findById(id);
 
         if (rentalOptional.isPresent()) {
             Rental rental = rentalOptional.get();
-            RentalPictureDTO rentalPictureDTO = modelMapper.map(rental, RentalPictureDTO.class);
-            return Optional.of(rentalPictureDTO);
+            RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
+            return Optional.of(rentalDTO);
         }
 
         return Optional.empty();
