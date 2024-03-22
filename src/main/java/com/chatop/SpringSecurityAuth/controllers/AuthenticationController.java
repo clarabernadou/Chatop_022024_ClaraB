@@ -1,7 +1,6 @@
 package com.chatop.SpringSecurityAuth.controllers;
 
 import jakarta.validation.Valid;
-import org.modelmapper.internal.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,7 +75,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        return ResponseEntity.ok(authenticationService.me(principalUser.getName()));
+        return ResponseEntity.ok(authenticationService.me(principalUser.getName(), principalUser));
     }
 
     @Operation(summary = "User", description = "Return the user information", tags = { "Authentication" })

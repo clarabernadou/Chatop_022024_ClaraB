@@ -1,5 +1,6 @@
 package com.chatop.SpringSecurityAuth.services;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
@@ -29,7 +30,7 @@ public interface AuthenticationService {
      * @param email
      * @return {@link Auth}
      */
-    AuthResponse me(String email);
+    AuthResponse me(String email, Principal principalUser);
 
     /**
      *
