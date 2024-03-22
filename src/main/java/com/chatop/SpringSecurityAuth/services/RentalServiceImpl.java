@@ -18,6 +18,7 @@ import com.cloudinary.Cloudinary;
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
 import com.chatop.SpringSecurityAuth.dto.RentalPictureDTO;
 import com.chatop.SpringSecurityAuth.entity.Rental;
+import com.chatop.SpringSecurityAuth.model.RentalResponse;
 import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.repository.RentalRepository;
 import com.cloudinary.utils.ObjectUtils;
@@ -68,7 +69,8 @@ public class RentalServiceImpl implements RentalService {
         return Optional.of("Rental created !");
     }
 
-    public List<RentalDTO> getRentals() {
+    @Override
+    public RentalResponse getRental() {
         Iterable<Rental> rentalsIterable = rentalRepository.findAll();
         List<Rental> rentals = StreamSupport.stream(rentalsIterable.spliterator(), false)
                                             .collect(Collectors.toList());
@@ -77,7 +79,7 @@ public class RentalServiceImpl implements RentalService {
                         .map(rental -> modelMapper.map(rental, RentalDTO.class))
                         .collect(Collectors.toList());
 
-        return rentalDTOs;
+        return new RentalResponse(rentalDTOs);
     }
 
     public Optional<RentalDTO> getRental(Long id) {

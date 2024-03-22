@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
 import com.chatop.SpringSecurityAuth.dto.RentalPictureDTO;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
+import com.chatop.SpringSecurityAuth.model.RentalResponse;
 import com.chatop.SpringSecurityAuth.services.RentalService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,14 +57,14 @@ public class RentalController {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @GetMapping("/rentals")
-    public ResponseEntity<List<RentalDTO>> getRentals() {
-        List<RentalDTO> rentals = rentalService.getRentals();
+    public ResponseEntity<RentalResponse> getRentals() {
+        RentalResponse rental = rentalService.getRental();
 
-        if(rentals.isEmpty()) {
+        if(rental == null || rental.getRentals().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        return ResponseEntity.ok(rentals);
+        return ResponseEntity.ok(rental);
     }
 
     @Operation(summary = "Get", description="Get a rental by id", tags = { "Rental" })
