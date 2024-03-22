@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;
 import com.chatop.SpringSecurityAuth.dto.RentalPictureDTO;
+import com.chatop.SpringSecurityAuth.model.RentalResponse;
 
 public interface RentalService { 
     /**
@@ -21,9 +22,9 @@ public interface RentalService {
     /**
      *  Get all rentals
      *
-     * @return List<RentalDTO>
+     * @return RentalResponse
      */
-    public List<RentalDTO> getRentals();
+    public RentalResponse getRental();
 
     /**
      *  Get rental by id
