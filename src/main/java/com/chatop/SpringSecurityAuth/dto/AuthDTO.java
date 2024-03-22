@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class AuthDTO {
 
+    @Schema(description = "Auth's id", example = "1")
+    private Long id;
+
     @Schema(description = "Auth's email", example = "toto@test.fr")
     @NotEmpty
     private String email;

@@ -11,6 +11,7 @@ import com.chatop.SpringSecurityAuth.model.AuthResponse;
 import com.chatop.SpringSecurityAuth.model.UserResponse;
 import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 
+import java.security.Principal;
 import java.util.Optional;
 
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Service
 public class AuthenticationServiceImpl implements  AuthenticationService{
 
-    private AuthenticationRepository userRepository;
+    private AuthenticationRepository authenticationRepository;
 
     private ModelMapper modelMapper;
 
@@ -26,9 +27,9 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
 
     private BCryptPasswordEncoder passwordEncoder;
 
-    public AuthenticationServiceImpl(AuthenticationRepository userRepository, ModelMapper modelMapper,
+    public AuthenticationServiceImpl(AuthenticationRepository authenticationRepository, ModelMapper modelMapper,
                                      JWTService jwtService,BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+        this.authenticationRepository = authenticationRepository;
         this.modelMapper = modelMapper;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
@@ -37,18 +38,18 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
     @Override
     public Optional<String> createUser(AuthDTO userDTO) {
 
-        if(userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+        if(authenticationRepository.findByEmail(userDTO.getEmail()).isPresent()) {
             return Optional.empty();
         }
         Auth user = modelMapper.map(userDTO, Auth.class);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        userRepository.save(user);
+        authenticationRepository.save(user);
         return Optional.of(jwtService.generateToken(userDTO));
     }
 
     @Override
     public Optional<String> login(AuthDTO userDTO) {
-        Optional<Auth> user = userRepository.findByEmail(userDTO.getEmail());
+        Optional<Auth> user = authenticationRepository.findByEmail(userDTO.getEmail());
         if(user.isEmpty() || !this.passwordEncoder.matches(userDTO.getPassword(), user.get().getPassword())) {
             return Optional.empty();
         }
@@ -56,8 +57,9 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
     }
 
     @Override
-    public AuthResponse me(String email) {
-        Optional<Auth> user = userRepository.findByEmail(email);
+    public AuthResponse me(String email, Principal principalUser) {
+        Optional<Auth> user = authenticationRepository.findByEmail(email);
+
         if(user.isPresent()) {
             return modelMapper.map(user.get(), AuthResponse.class);
         }
@@ -66,7 +68,7 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
 
     @Override
     public UserResponse getUser(Long id) {
-        Optional<Auth> user = userRepository.findById(id);
+        Optional<Auth> user = authenticationRepository.findById(id);
         if(user.isPresent()) {
             return modelMapper.map(user.get(), UserResponse.class);
         }
