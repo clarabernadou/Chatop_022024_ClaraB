@@ -36,7 +36,7 @@ Following these instructions will successfully set up and run the Chatop_022024_
 
 ## Database Schema
 
--- Table: users
+* Table: users
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) UNIQUE,
@@ -46,7 +46,7 @@ CREATE TABLE users (
     updated_at DATE DEFAULT CURRENT_DATE ON UPDATE CURRENT_DATE
 );
 
--- Table: rentals
+* Table: rentals
 CREATE TABLE rentals (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
@@ -60,7 +60,7 @@ CREATE TABLE rentals (
     FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 
--- Table: messages
+* Table: messages
 CREATE TABLE messages (
     id INT PRIMARY KEY AUTO_INCREMENT,
     message TEXT,
