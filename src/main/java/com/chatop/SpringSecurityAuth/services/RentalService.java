@@ -2,7 +2,6 @@ package com.chatop.SpringSecurityAuth.services;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.RentalDTO;

@@ -24,9 +24,6 @@ import com.chatop.SpringSecurityAuth.repository.RentalRepository;
 import com.cloudinary.utils.ObjectUtils;
 import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 
-import lombok.Data;
-
-@Data
 @Service
 public class RentalServiceImpl implements RentalService {
     private RentalRepository rentalRepository;

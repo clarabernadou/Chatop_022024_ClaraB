@@ -10,15 +10,12 @@ import com.chatop.SpringSecurityAuth.dto.MessageDTO;
 import com.chatop.SpringSecurityAuth.entity.Message;
 import com.chatop.SpringSecurityAuth.repository.MessageRepository;
 
-import lombok.Data;
-
-@Data
 @Service
 public class MessageServiceImpl implements MessageService {
     private MessageRepository messageRepository;
 
     private ModelMapper modelMapper = new ModelMapper();
-    
+
     public MessageServiceImpl(MessageRepository messageRepository, ModelMapper modelMapper) {
         this.messageRepository = messageRepository;
         this.modelMapper = modelMapper;

@@ -1,6 +1,5 @@
 package com.chatop.SpringSecurityAuth.services;
 
-import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,8 +13,6 @@ import com.chatop.SpringSecurityAuth.repository.AuthenticationRepository;
 import java.security.Principal;
 import java.util.Optional;
 
-
-@Data
 @Service
 public class AuthenticationServiceImpl implements  AuthenticationService{
 
