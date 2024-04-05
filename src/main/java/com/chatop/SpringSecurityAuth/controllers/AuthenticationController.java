@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
+import com.chatop.SpringSecurityAuth.dto.RegisterDTO;
 import com.chatop.SpringSecurityAuth.model.MessageResponse;
 import com.chatop.SpringSecurityAuth.model.TokenResponse;
 import com.chatop.SpringSecurityAuth.model.UserResponse;
@@ -38,8 +39,8 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping("/auth/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody AuthDTO authDto) {
-        Optional<String> token = authenticationService.createUser(authDto);
+    public ResponseEntity<?> createUser(@Valid @RequestBody RegisterDTO registerDTO) {
+        Optional<String> token = authenticationService.createUser(registerDTO);
 
         if(token.isEmpty()) {
             return new ResponseEntity<>(new MessageResponse("error"), HttpStatus.UNAUTHORIZED);
