@@ -2,6 +2,7 @@ package com.chatop.SpringSecurityAuth.configuration;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -22,7 +23,8 @@ import javax.crypto.spec.SecretKeySpec;
 @Configuration
 public class SpringSecurityConfig {
 
-    private final String jwtKey = "TgFbIeH7oQwY8aZp3LmXvK2nDcR4gU1sJiV0xN6qE9lO2P8uI4zAsM1jC5bXrA3yG6";
+    @Value("${jwt.key}")
+    private String jwtKey;
 
 
     @Bean
