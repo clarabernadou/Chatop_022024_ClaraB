@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
+import com.chatop.SpringSecurityAuth.dto.RegisterDTO;
 import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.model.AuthResponse;
 import com.chatop.SpringSecurityAuth.model.UserResponse;
@@ -33,15 +34,15 @@ public class AuthenticationServiceImpl implements  AuthenticationService{
     }
 
     @Override
-    public Optional<String> createUser(AuthDTO userDTO) {
+    public Optional<String> createUser(RegisterDTO registerDTO) {
 
-        if(authenticationRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+        if(authenticationRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
             return Optional.empty();
         }
-        Auth user = modelMapper.map(userDTO, Auth.class);
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        Auth user = modelMapper.map(registerDTO, Auth.class);
+        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         authenticationRepository.save(user);
-        return Optional.of(jwtService.generateToken(userDTO));
+        return Optional.of(jwtService.generateToken(registerDTO));
     }
 
     @Override

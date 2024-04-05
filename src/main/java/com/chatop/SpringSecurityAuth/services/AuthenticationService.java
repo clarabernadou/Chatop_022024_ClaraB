@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.Optional;
 
 import com.chatop.SpringSecurityAuth.dto.AuthDTO;
+import com.chatop.SpringSecurityAuth.dto.RegisterDTO;
+import com.chatop.SpringSecurityAuth.entity.Auth;
 import com.chatop.SpringSecurityAuth.model.AuthResponse;
 import com.chatop.SpringSecurityAuth.model.UserResponse;
 
@@ -11,10 +13,10 @@ public interface AuthenticationService {
     /**
      *  Create a new user
      *
-     * @param userDTO
+     * @param registerDTO
      * @return String
      */
-    Optional<String>createUser(AuthDTO userDTO);
+    Optional<String>createUser(RegisterDTO registerDTO);
 
     /**
      * Check if the user is in the database
