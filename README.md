@@ -36,8 +36,8 @@ Following these instructions will successfully set up and run the Chatop_022024_
 
 ## Database Schema
 
-* Table: users
-CREATE TABLE users (
+* Table: auth
+CREATE TABLE auth (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) UNIQUE,
     name VARCHAR(255),
